@@ -39,7 +39,9 @@ export default class App extends Component {
   componentDidMount(){
     const rootRef = firebase.database().ref();
     const teamRef = rootRef.child('teams');
-
+    
+    twemoji.parse(document.body);
+    
     teamRef.on('value',snap =>{
       const teamsObj = snap.val();
       const teams =  Object.keys(teamsObj)
@@ -75,6 +77,7 @@ export default class App extends Component {
           </ul>
         </div>
         <div className="players-list">
+          {this.renderInfoScreen()}
           { 
             this.state.players.map((player,i)=>{
               return (<PlayerCard key={player.key} team={team} player={player} uid={this.state.uid}/>);
@@ -83,6 +86,39 @@ export default class App extends Component {
         </div>
       </div>
     );
+  }
+
+  renderInfoScreen(){
+    return(
+      this.state.players.length === 0 ?
+           <div className="fx-col fx-a-c fx-j-c emotji-info">
+                <h2 className="title">Select Team</h2>
+              <div className="fx-row">
+                <p className="icon u-margin-0">💩</p>
+                <p>Crap</p>
+              </div>
+              <div className="fx-row">
+                <p className="icon u-margin-0">👎</p>
+                <p>Poor</p>
+              </div>
+              <div className="fx-row">
+                <p className="icon u-margin-0">🤔</p>
+                <p>Still thinking</p>
+              </div>
+              <div className="fx-row">
+                <p className="icon u-margin-0">👌</p>
+                <p>Ok</p>
+              </div>
+              <div className="fx-row">
+                <p className="icon u-margin-0">🌟</p>
+                <p>Star player</p>
+              </div>
+              <div className="fx-row">
+                <p className="icon u-margin-0">🌎</p>
+                <p>World class</p>
+              </div>
+            </div> : ''
+    )
   }
 
   selectTeam(name){
