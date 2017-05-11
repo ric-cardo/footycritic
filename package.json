@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bulma": "0.4.1",
+    "firebase": "3.9.0",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "twemoji": "2.2.5"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
