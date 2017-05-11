@@ -3,6 +3,7 @@ import * as firebase from 'firebase';
 import twemoji from 'twemoji'; 
 
 import './App.css';
+import PlayerCard from './PlayerCard';
 
 export default class App extends Component {
 
@@ -11,7 +12,28 @@ export default class App extends Component {
     this.state = {
       teams:[],
       selected: 'null',
+      players:[],
+      uid:null
     };
+  }
+
+  componentWillMount(){
+    
+    if(!window.localStorage.getItem('uid')){
+      firebase.auth().signInAnonymously().catch((error)=> {
+        alert('problem signing in refresh to try again ')  
+      });
+    }
+
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const {uid} = user;
+        window.localStorage.setItem('uid',uid)
+        this.setState(prevState => ({uid}));
+      }
+
+    });
   }
 
   componentDidMount(){
@@ -28,12 +50,6 @@ export default class App extends Component {
         
       this.setState(prevState => ({teams}));
     })
-
-  }
-  selectTeam(name){
-    this.setState(prevState => ({
-      selected: name
-    }));
   }
 
   render() {
@@ -58,7 +74,37 @@ export default class App extends Component {
             })}
           </ul>
         </div>
+        <div className="players-list">
+          { 
+            this.state.players.map((player,i)=>{
+              return (<PlayerCard key={player.key} team={team} player={player} uid={this.state.uid}/>);
+            })
+          }
+        </div>
       </div>
     );
+  }
+
+  selectTeam(name){
+    this.getPlayers(name);
+    this.setState(prevState => ({
+      selected: name
+    }));
+  }
+
+  getPlayers(name){
+    let players = [];
+    const playerRef = firebase.database().ref('players').orderByChild('team').equalTo(name);
+    playerRef.on('value',snap =>{
+      const playerObj = snap.val();
+      if(playerObj){
+         players =  Object.keys(playerObj)
+          .map(key =>{
+            return Object.assign({key,},playerObj[key])
+          })
+      }
+      
+      this.setState(prevState => ({players}));
+    })
   }
 }

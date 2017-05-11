@@ -1,0 +1,19 @@
+.player-card .emoji-btn{
+  padding: 0.4rem;
+  border:none !important;
+  border-radius: 0;
+}
+
+.card-footer-item .icon{
+  font-size:1rem;
+}
+
+.player-card.card{
+  max-width:90vw;
+  margin:0 auto;
+  margin-top:1em;
+}
+
+.vote-count{
+  margin-top: 0.5em;
+}

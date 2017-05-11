@@ -4,3 +4,17 @@
 .tabs img{
  height: 100% !important;
 }
+
+.tabs.is-toggle.tabs-list-container{
+    margin-bottom: 0;
+}
+
+.tabs.is-toggle .tabs-list{
+    border-bottom: 1px solid #dbdbdb;
+}
+
+.players-list{
+    height: 100%;
+    overflow: scroll;
+}
+
