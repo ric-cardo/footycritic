@@ -42,9 +42,18 @@ export default class PlayerCard extends Component {
                 return {player};
             });
         })
-        userRatingRef.once('value',(snap) =>{
+        userRatingRef
+            .orderByChild('createdAt')
+            .limitToLast(1)
+            .once('value',(snap) =>{
+                let rating = null;
+                if(snap.val()){
+                    const key = Object.keys(snap.val())[0];
+                    rating =  key ? snap.val()[key].rating : null;
+                }
+
             this.setState(prevState => ({
-                selected:snap.val()
+                selected:rating
             }));
         })
         twemoji.parse(document.body);
@@ -105,7 +114,7 @@ export default class PlayerCard extends Component {
             };
             var refs ={
                 player:`/players/${player.key}/ratings`,
-                user:`/userRatings/${this.props.uid}`
+                user:`/userRatings/${this.props.uid}/${player.key}`
             }
 
             if(selected){
@@ -132,9 +141,11 @@ export default class PlayerCard extends Component {
             return ratings;
         });
 
-        var u = {}
-        u[player.key] = updates.new;
-        firebase.database().ref(refs.user).update(u);
+
+        firebase.database().ref(refs.user).push({
+            rating: updates.new,
+            createdAt:firebase.database.ServerValue.TIMESTAMP
+        });
     }
 
     renderCount(selected,amount = 0){
