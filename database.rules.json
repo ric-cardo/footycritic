@@ -1,0 +1,18 @@
+{
+  "rules": {
+    ".read": "true",
+    ".write": "auth !=null",
+    "players": {
+      "$playerId": {
+        ".indexOn": "team"
+      }
+    },
+    "userRatings": {
+      "$userId": {
+        "$playerId": {
+          ".indexOn": "createdAt"
+        }
+      }
+    }
+  }
+}
