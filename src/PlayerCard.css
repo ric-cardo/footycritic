@@ -12,6 +12,16 @@
   max-width:90vw;
   margin:0 auto;
   margin-top:1em;
+  min-width: 320px;
+}
+
+@media (min-width: 736px) {
+
+  .player-card.card{
+    margin: 1em 0.5em 0 0; 
+    flex: 0 0 24%;
+    max-width: 24%;
+  }
 }
 
 .vote-count{

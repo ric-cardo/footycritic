@@ -16,6 +16,12 @@
 .players-list{
     height: 100%;
     overflow: scroll;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.emotji-info {
+    width: 100%;
 }
 
 .emotji-info div{
